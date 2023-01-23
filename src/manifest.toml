@@ -1,0 +1,4 @@
+name = "Google Drive File ID"
+version = "1.0.0"
+match = "https://drive.google.com/*"
+grant = "none"
