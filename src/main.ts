@@ -103,6 +103,20 @@ document.querySelector("head")?.append(
         `
   a.gfdi-link {
     padding-right: 5px;
+    color: lightgray;
+  }
+
+  a.gfdi-link:active {
+    animation: gfdi-blink 200ms;
+  }
+
+  @keyframes gfdi-blink {
+    0% {
+      color: black;
+    }
+    100% {
+      color: lightgray;
+    }
   }
 `,
       ],
