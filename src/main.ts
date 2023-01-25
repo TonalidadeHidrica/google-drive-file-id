@@ -2,8 +2,9 @@ import { XT } from "./xt";
 
 const ORIGINAL_TAG_KEY = "data-gfdi";
 const ORIGINAL_TAG_VALUE = "1";
+const FILE_ID_KEY = "data-id";
 
-const addChild = (parentDiv: HTMLDivElement) => {
+const addChild = (parentDiv: HTMLDivElement, fileId: string) => {
   // const div = parentDiv.querySelector("div.KL4NAf");
   parentDiv?.prepend(
     XT(document, [
@@ -11,12 +12,19 @@ const addChild = (parentDiv: HTMLDivElement) => {
         "a",
         [
           {
-            href: "https://google.com",
+            href: "#",
             [ORIGINAL_TAG_KEY]: ORIGINAL_TAG_VALUE,
             style: "padding-right: 5px",
+            [FILE_ID_KEY]: fileId,
           },
           "ID",
         ],
+        {
+          onclick: (event) => {
+            navigator.clipboard.writeText(fileId);
+            event.stopPropagation();
+          },
+        },
       ],
     ])
   );
@@ -31,7 +39,8 @@ const nodeObserver = new MutationObserver((records) => {
         removed.attributes.getNamedItem(ORIGINAL_TAG_KEY)?.value ===
           ORIGINAL_TAG_VALUE
       ) {
-        addChild(<HTMLDivElement>record.target);
+        const fileId = removed.attributes.getNamedItem(FILE_ID_KEY)!.value;
+        addChild(<HTMLDivElement>record.target, fileId);
       }
     }
   }
@@ -40,8 +49,8 @@ const nodeObserver = new MutationObserver((records) => {
 const inspectDescendants = (node: HTMLElement) => {
   for (const div of node.querySelectorAll(`div[jsmodel="aDmR9e"]`)) {
     // console.log(div);
-    const id = div.attributes.getNamedItem("data-id")?.value;
-    if (!id) continue;
+    const fileId = div.attributes.getNamedItem("data-id")?.value;
+    if (!fileId) continue;
     const parentDiv = div.querySelector("div.KL4NAf");
     if (!parentDiv) continue;
 
@@ -50,7 +59,7 @@ const inspectDescendants = (node: HTMLElement) => {
       childList: true,
     });
 
-    addChild(parentDiv);
+    addChild(parentDiv, fileId);
   }
 };
 
