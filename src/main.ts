@@ -1,4 +1,4 @@
-import { XT } from "./xt";
+import {XT} from "./xt";
 
 const ORIGINAL_TAG_KEY = "data-gfdi";
 const ORIGINAL_TAG_VALUE = "1";
@@ -14,8 +14,8 @@ const addChild = (parentDiv: HTMLDivElement, fileId: string) => {
           {
             href: "#",
             [ORIGINAL_TAG_KEY]: ORIGINAL_TAG_VALUE,
-            style: "padding-right: 5px",
             [FILE_ID_KEY]: fileId,
+            class: "gfdi-link"
           },
           "ID",
         ],
@@ -35,7 +35,7 @@ const nodeObserver = new MutationObserver((records) => {
       if (
         removed instanceof HTMLElement &&
         removed.attributes.getNamedItem(ORIGINAL_TAG_KEY)?.value ===
-          ORIGINAL_TAG_VALUE
+        ORIGINAL_TAG_VALUE
       ) {
         const fileId = removed.attributes.getNamedItem(FILE_ID_KEY)!.value;
         addChild(<HTMLDivElement>record.target, fileId);
@@ -99,6 +99,12 @@ if (elem !== null) {
     childList: true,
   });
 }
+
+document.querySelector("head")?.append(XT(document, [["style", [`
+  a.gfdi-link {
+    padding-right: 5px;
+  }
+`]]]));
 
 // setTimeout(() => {
 //   const elem = document.querySelector("div.uXB7xe");
