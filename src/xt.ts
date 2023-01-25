@@ -3,7 +3,10 @@
 export type ElementSpec = [
   string,
   ChildrenSpec[],
-  { onclick: GlobalEventHandlers["onclick"] }?
+  {
+    onclick?: GlobalEventHandlers["onclick"];
+    ondblclick?: GlobalEventHandlers["ondblclick"];
+  }?
 ];
 
 export type ChildrenSpec = string | { [key: string]: string } | ElementSpec;
@@ -12,9 +15,8 @@ const createElement = (doc: Document, child: ElementSpec): HTMLElement => {
   const [tag, children, additionals] = child;
   const element = doc.createElement(tag);
   nodeRender(doc, element, children);
-  if (additionals !== undefined) {
-    element.onclick = additionals.onclick;
-  }
+  element.onclick = additionals?.onclick ?? null;
+  element.ondblclick = additionals?.ondblclick ?? null;
   return element;
 };
 

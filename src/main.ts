@@ -20,10 +20,8 @@ const addChild = (parentDiv: HTMLDivElement, fileId: string) => {
           "ID",
         ],
         {
-          onclick: (event) => {
-            navigator.clipboard.writeText(fileId);
-            event.stopPropagation();
-          },
+          onclick: () => navigator.clipboard.writeText(fileId),
+          ondblclick: (event) => event.stopPropagation(),
         },
       ],
     ])
